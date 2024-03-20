@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { Container, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 
@@ -10,12 +10,18 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
+      // Validate inputs
+      if (!text.trim()) {
+        throw new Error('Text field cannot be empty');
+      }
+      // Assuming lang and voiceType need validation too
+
       const response = await axios.post(
         'http://localhost:5000/text-to-speech',
         { text, lang, voice_type: voiceType }
